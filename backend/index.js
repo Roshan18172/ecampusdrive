@@ -8,6 +8,10 @@ app.get('/', (req, res) => {
     res.send('Welcome to eCampus')
 })
 
+app.use('/api/auth',require('./routes/auth'))
+app.use('/api/student',require('./routes/student'))
+app.use('/api/drive',require('./routes/drive'))
+
 app.listen(PORT, () => {
-    console.log(`eCampus server is running on port http://localhost:${PORT}`)
+    console.log(`eCampusDrive server is running on port http://localhost:${PORT}`)
 })
