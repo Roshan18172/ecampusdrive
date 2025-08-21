@@ -7,26 +7,26 @@ const { body, validationResult } = require('express-validator')
 
 const Student = require('../models/Student');
 const Teacher = require('../models/Teacher');
- const JWT_SECRET="yourSuperSecretKey123"
+const JWT_SECRET = "mysecretkey"; // Secret key for JWT
 
 // ------------------
 // Register Student/Teacher
 // ------------------
 router.post('/register', [
     body('name').isLength({ min: 3 }),
-    body('email','enter a valid email').isEmail(),
+    body('email', 'enter a valid email').isEmail(),
     body('password').isLength({ min: 5 })
 ], async (req, res) => {
     const errors = validationResult(req)
-    if(!errors.isEmpty())
-        return res.status(400).json({errors: errors.array()})
+    if (!errors.isEmpty())
+        return res.status(400).json({ errors: errors.array() })
     const { name, email, password, role, department } = req.body;
     try {
         let user;
         if (role === 'student') {
-            user = await Student.findOne({ email:req.body.email });
+            user = await Student.findOne({ email: req.body.email });
         } else {
-            user = await Teacher.findOne({ email:req.body.email });
+            user = await Teacher.findOne({ email: req.body.email });
         }
         if (user) return res.status(400).json({ error: "User already exists" });
 
@@ -48,10 +48,10 @@ router.post('/register', [
                 department: req.body.department
             });
         }
-        
+
         const payload = { user: { id: newUser._id, role } };
         const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
-        res.json({token});
+        res.json({ token });
 
     } catch (error) {
         console.error(error.message);
@@ -62,7 +62,10 @@ router.post('/register', [
 // ------------------
 // Login Student/Teacher
 // ------------------
-router.post('/login', async (req, res) => {
+router.post('/login', [
+    body('email', 'enter a valid email').isEmail(),
+    body('password').isLength({ min: 5 })
+], async (req, res) => {
     const { email, password, role } = req.body;
 
     try {
@@ -79,7 +82,7 @@ router.post('/login', async (req, res) => {
         if (!isMatch) return res.status(400).json({ error: "Invalid Credentials" });
 
         const payload = { user: { id: user._id, role } };
-        const token = jwt.sign(payload,JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
 
         res.json({ token });
     } catch (error) {
