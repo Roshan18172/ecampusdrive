@@ -16,7 +16,8 @@ const TeacherSchema = new mongoose.Schema({
     },
     // Optional: additional info about teacher
     department: {
-        type: String
+        type: String,
+        default: 'placement' 
     },
     postedDrives: [{
         type: mongoose.Schema.Types.ObjectId,
