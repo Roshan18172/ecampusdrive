@@ -14,7 +14,7 @@ const StudentDashboard = () => {
     useEffect(() => {
         const fetchDrives = async () => {
             try {
-                const res = await axios.get("http://localhost:5000/api/drive/fetch");
+                const res = await axios.get("http://localhost:5000/api/drive/");
                 setDrives(res.data);
             } catch (error) {
                 console.error("Error fetching drives:", error);
@@ -103,7 +103,7 @@ const StudentDashboard = () => {
 
             {/* Main Content */}
             <div className="flex-grow-1 bg-light p-4">
-                <h2 className="fw-bold">Welcome, Student 👋</h2>
+                <h2 className="fw-bold">Welcome, Student {profile.name} 👋</h2>
                 <p className="text-muted">Here are the latest placement drives for you</p>
 
                 {/* Drives Section */}

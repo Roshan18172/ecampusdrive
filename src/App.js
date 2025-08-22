@@ -13,7 +13,7 @@ import TeacherDashboard from "./components/TeacherDashboard";
 // import TeacherProfile, Drives, Login, Register etc.
 
 function App() {
-// const user = JSON.parse(localStorage.getItem("user")); // {role: "student"/"teacher"}
+const user = JSON.parse(localStorage.getItem("user")); // {role: "student"/"teacher"}
 
   return (
     <Router>

@@ -33,7 +33,7 @@ const TeacherDashboard = () => {
         const fetchUser = async () => {
             try {
                 const res = await fetch("http://localhost:5000/api/student/teacher", {
-                    method: "POST",
+                    method: "GET",
                     headers: {
                         "Content-Type": "application/json",
                         "auth-token": localStorage.getItem("token"), // 👈 token stored after login
@@ -100,7 +100,7 @@ const TeacherDashboard = () => {
                         </a>
                     </li>
                     <li className="nav-item mt-auto">
-                        <a href="something" className="nav-link text-white" onClick={handleLogout}>
+                        <a href="#" className="nav-link text-white" onClick={handleLogout}>
                             <i className="bi bi-box-arrow-right me-2"></i> Logout
                         </a>
                     </li>
