@@ -1,0 +1,87 @@
+import React from "react";
+import { Link } from "react-router-dom";
+
+const Navbar = () => {
+    const isLoggedIn = localStorage.getItem("token"); // check if user logged in
+    const role = localStorage.getItem("role"); // "student" or "teacher"
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        window.location.href = "/login"; // redirect to login
+    };
+
+    return (
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div className="container">
+                <Link className="navbar-brand" to="/">eCampus</Link>
+
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+
+                <div className="collapse navbar-collapse" id="navbarNav">
+                    <ul className="navbar-nav ms-auto">
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/">Home</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/about">About</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/drives">Drives</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/contact">Contact</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/student">student</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/teacher">teacher</Link>
+                        </li>
+
+                        {isLoggedIn && role === "student" && (
+                            <>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/student/profile">My Profile</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/drives">Drives</Link>
+                                </li>
+                            </>
+                        )}
+
+                        {isLoggedIn && role === "teacher" && (
+                            <>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/teacher/profile">My Profile</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/teacher/drives">Manage Drives</Link>
+                                </li>
+                            </>
+                        )}
+
+                        {!isLoggedIn ? (
+                            <>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/login">Login</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/register">Register</Link>
+                                </li>
+                            </>
+                        ) : (
+                            <li className="nav-item">
+                                <button className="btn btn-danger ms-2" onClick={handleLogout}>Logout</button>
+                            </li>
+                        )}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    );
+};
+
+export default Navbar;

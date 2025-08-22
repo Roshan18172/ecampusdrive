@@ -1,0 +1,84 @@
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+
+const Login = () => {
+    const [formData, setFormData] = useState({ email: "", password: "" });
+    const [message, setMessage] = useState("");
+    const navigate = useNavigate();
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await axios.post("http://localhost:5000/api/auth/login", formData);
+            localStorage.setItem("token", res.data.token);
+            localStorage.setItem("role", res.data.user.role); // store role
+
+            setMessage("Login successful ✅");
+
+            // Redirect based on role
+            if (res.data.user.role === "student") {
+                navigate("/student");
+            } else {
+                navigate("/teacher");
+            }
+        } catch (error) {
+            setMessage("Invalid credentials ❌");
+        }
+    };
+
+    return (
+        <div className="d-flex align-items-center justify-content-center vh-100 bg-light">
+            <div className="container p-4 shadow rounded bg-white" style={{ maxWidth: "900px" }}>
+                <div className="row g-0">
+                    <div className="col-md-6 d-flex flex-column justify-content-center align-items-center bg-success text-white p-5 rounded-start">
+                        <h2 className="fw-bold">Welcome Back 👋</h2>
+                        <p className="text-center">
+                            Login to continue exploring placement drives and opportunities.
+                        </p>
+                        <i className="bi bi-person-circle fs-1 mt-3"></i>
+                    </div>
+                    <div className="col-md-6 p-5">
+                        <h3 className="mb-4 fw-bold">Login</h3>
+                        {message && <div className="alert alert-info">{message}</div>}
+                        <form onSubmit={handleSubmit}>
+                            <div className="mb-3">
+                                <label className="form-label">Email</label>
+                                <input
+                                    type="email"
+                                    className="form-control"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label className="form-label">Password</label>
+                                <input
+                                    type="password"
+                                    className="form-control"
+                                    name="password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+                            <button type="submit" className="btn btn-success w-100">Login</button>
+                        </form>
+                        <p className="mt-3 text-center">
+                            Don’t have an account?{" "}
+                            <Link to="/register" className="text-success fw-bold">Register</Link>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Login;
