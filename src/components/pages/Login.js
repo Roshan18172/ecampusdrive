@@ -34,6 +34,7 @@ const Login = () => {
                 } else {
                     navigate("/teacher");
                 }
+                window.location.reload();
             } else {
                 setMessage(json.error || "Invalid credentials ❌");
             }
