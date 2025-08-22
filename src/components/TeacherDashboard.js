@@ -16,7 +16,7 @@ const TeacherDashboard = () => {
         const fetchDrives = async () => {
             try {
                 const token = localStorage.getItem("token");
-                const res = await axios.get("http://localhost:5000/api/drive/mydrives", {
+                const res = await axios.get("http://localhost:5000/api/drive/", {
                     headers: { "auth-token": token },
                 });
                 setDrives(res.data);
@@ -26,6 +26,28 @@ const TeacherDashboard = () => {
         };
 
         fetchDrives();
+    }, []);
+    const [user, setUser] = useState([]);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const res = await fetch("http://localhost:5000/api/student/teacher", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "auth-token": localStorage.getItem("token"), // 👈 token stored after login
+                    },
+                });
+
+                const data = await res.json();
+                setUser(data);
+            } catch (error) {
+                console.error("Error fetching user:", error);
+            }
+        };
+
+        fetchUser();
     }, []);
 
     const handleLogout = () => {
@@ -66,9 +88,9 @@ const TeacherDashboard = () => {
             >
                 <h3 className="fw-bold mb-4">eCampus 🎓</h3>
                 <ul className="nav flex-column">
-                    
+
                     <li className="nav-item mb-3">
-                        <a href="#" className="nav-link text-white">
+                        <a href="something" className="nav-link text-white">
                             <i className="bi bi-clipboard2-fill me-2"></i> My Drives
                         </a>
                     </li>
@@ -78,7 +100,7 @@ const TeacherDashboard = () => {
                         </a>
                     </li>
                     <li className="nav-item mt-auto">
-                        <a href="#" className="nav-link text-white" onClick={handleLogout}>
+                        <a href="something" className="nav-link text-white" onClick={handleLogout}>
                             <i className="bi bi-box-arrow-right me-2"></i> Logout
                         </a>
                     </li>
@@ -87,7 +109,7 @@ const TeacherDashboard = () => {
 
             {/* Main Content */}
             <div className="flex-grow-1 bg-light p-4">
-                <h2 className="fw-bold">Welcome, Teacher 👩‍🏫</h2>
+                <h2 className="fw-bold">Welcome, {user.name} 👩‍🏫</h2>
                 <p className="text-muted">Manage your drives and applicants here</p>
 
                 {/* Drives List */}

@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/NavBar";
-import Home from "./components/Home";
-import Register from "./components/Register";
-import Login from "./components/Login";
-import About from "./components/About";
-import Drives from "./components/Drives";
-import Contact from "./components/Contact";
+import Home from "./components/pages/Home";
+import Register from "./components/pages/Register";
+import Login from "./components/pages/Login";
+import About from "./components/pages/About";
+import Drives from "./components/pages/Drives";
+import Contact from "./components/pages/Contact";
 import StudentDashboard from "./components/StudentDashboard";
 import TeacherDashboard from "./components/TeacherDashboard";
 // import StudentProfile from "./components/StudentProfile";

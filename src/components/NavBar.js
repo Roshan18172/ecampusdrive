@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-    const isLoggedIn = localStorage.getItem("token"); // check if user logged in
+   // check if user logged in
     const role = localStorage.getItem("role"); // "student" or "teacher"
 
     return (
@@ -16,26 +16,8 @@ const Navbar = () => {
 
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav ms-auto">
-                        {/* <li className="nav-item">
-                            <Link className="nav-link" to="/">Home</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/about">About</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/drives">Drives</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/contact">Contact</Link>
-                        </li> */}
-                        {/* <li className="nav-item">
-                            <Link className="nav-link" to="/student">student</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/teacher">teacher</Link>
-                        </li> */}
 
-                        {isLoggedIn && role === "student" && (
+                        {localStorage.getItem("token") && role === "student" && (
                             <>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/student/profile">My Profile</Link>
@@ -46,7 +28,7 @@ const Navbar = () => {
                             </>
                         )}
 
-                        {isLoggedIn && role === "teacher" && (
+                        {localStorage.getItem("token") && role === "teacher" && (
                             <>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/teacher/profile">My Profile</Link>
@@ -57,7 +39,7 @@ const Navbar = () => {
                             </>
                         )}
 
-                        {!isLoggedIn && (
+                        {!localStorage.getItem("token") && (
                             <>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/">Home</Link>

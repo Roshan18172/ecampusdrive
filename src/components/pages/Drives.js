@@ -5,14 +5,19 @@ const Drives = () => {
     const [drives, setDrives] = useState([]);
 
     useEffect(() => {
-        // Fetch drives from backend
-        axios.get("http://localhost:5000/api/drives")
-            .then((res) => {
+        const fetchDrives = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                const res = await axios.get("http://localhost:5000/api/drive/", {
+                    headers: { "auth-token": token },
+                });
                 setDrives(res.data);
-            })
-            .catch((err) => {
-                console.error("Error fetching drives:", err);
-            });
+            } catch (error) {
+                console.error("Error fetching teacher drives:", error);
+            }
+        };
+
+        fetchDrives();
     }, []);
 
     return (

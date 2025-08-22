@@ -5,7 +5,7 @@ const DriveSchema = new Schema({
     description: { type: String, required: true },
     eligibility: { type: String, required: true },
     packageOffered: { type: String, required: true },
-    teacher: { type: mongoose.Schema.Types.ObjectId, ref: "Teacher" },
+    postedBy: { type: mongoose.Schema.Types.ObjectId, ref: "Teacher" },
     applicants: [
         {
             student: { type: mongoose.Schema.Types.ObjectId, ref: "Student" },

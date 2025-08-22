@@ -6,6 +6,7 @@ const { body, validationResult } = require("express-validator");
 
 const Student = require("../models/Student");
 const Teacher = require("../models/Teacher");
+const fetchUser = require('../middleware/fetchUser');
 
 // JWT Secret
 const JWT_SECRET = "yourSecretKeyHere";
@@ -57,6 +58,7 @@ router.post(
 
                 await user.save();
             }
+            res.json(user)
 
             res.status(200).json({ message: "Registration successful" });
         } catch (error) {
@@ -102,7 +104,7 @@ router.post(
             const payload = {
                 user: {
                     id: user.id,
-                    role: role,
+                    role: user.role,
                 },
             };
 
@@ -114,5 +116,20 @@ router.post(
         }
     }
 );
+// router.get("/getuser", fetchUser, async (req, res) => {
+//     try {
+//         let user;
+//         if (req.user.role === "student") {
+//             user = await Student.findById(req.user.id).select("name email role");
+//         } else if (req.user.role === "teacher") {
+//             user = await Teacher.findById(req.user.id).select("name email role");
+//         }
+
+//         res.json(user);
+//     } catch (error) {
+//         console.error(error.message);
+//         res.status(500).send("Server Error");
+//     }
+// });
 
 module.exports = router;
