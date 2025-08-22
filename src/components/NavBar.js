@@ -5,12 +5,6 @@ const Navbar = () => {
     const isLoggedIn = localStorage.getItem("token"); // check if user logged in
     const role = localStorage.getItem("role"); // "student" or "teacher"
 
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("role");
-        window.location.href = "/login"; // redirect to login
-    };
-
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container">
@@ -22,7 +16,7 @@ const Navbar = () => {
 
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav ms-auto">
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                             <Link className="nav-link" to="/">Home</Link>
                         </li>
                         <li className="nav-item">
@@ -33,13 +27,13 @@ const Navbar = () => {
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link" to="/contact">Contact</Link>
-                        </li>
-                        <li className="nav-item">
+                        </li> */}
+                        {/* <li className="nav-item">
                             <Link className="nav-link" to="/student">student</Link>
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link" to="/teacher">teacher</Link>
-                        </li>
+                        </li> */}
 
                         {isLoggedIn && role === "student" && (
                             <>
@@ -63,8 +57,20 @@ const Navbar = () => {
                             </>
                         )}
 
-                        {!isLoggedIn ? (
+                        {!isLoggedIn && (
                             <>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/">Home</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/about">About</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/drives">Drives</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/contact">Contact</Link>
+                                </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/login">Login</Link>
                                 </li>
@@ -72,11 +78,7 @@ const Navbar = () => {
                                     <Link className="nav-link" to="/register">Register</Link>
                                 </li>
                             </>
-                        ) : (
-                            <li className="nav-item">
-                                <button className="btn btn-danger ms-2" onClick={handleLogout}>Logout</button>
-                            </li>
-                        )}
+                        ) }
                     </ul>
                 </div>
             </div>

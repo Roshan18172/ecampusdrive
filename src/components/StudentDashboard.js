@@ -46,6 +46,12 @@ const StudentDashboard = () => {
         setProfile({ ...profile, [e.target.name]: e.target.value });
     };
 
+     const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        window.location.href = "/login"; // redirect to login
+    };
+
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
@@ -88,7 +94,7 @@ const StudentDashboard = () => {
                         </a>
                     </li>
                     <li className="nav-item mt-auto">
-                        <a href="#" className="nav-link text-white">
+                        <a href="#" className="nav-link text-white"  onClick={handleLogout}>
                             <i className="bi bi-box-arrow-right me-2"></i> Logout
                         </a>
                     </li>

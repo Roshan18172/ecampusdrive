@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const Login = () => {
-    const [formData, setFormData] = useState({ email: "", password: "" });
+    const [formData, setFormData] = useState({ email: "", password: "", role: "student" });
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
 
@@ -13,21 +12,34 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         try {
-            const res = await axios.post("http://localhost:5000/api/auth/login", formData);
-            localStorage.setItem("token", res.data.token);
-            localStorage.setItem("role", res.data.user.role); // store role
+            const response = await fetch("http://localhost:5000/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            });
 
-            setMessage("Login successful ✅");
+            const json = await response.json();
+            console.log(json);
 
-            // Redirect based on role
-            if (res.data.user.role === "student") {
-                navigate("/student");
+            if (response.ok) {
+                localStorage.setItem("token", json.authToken);
+                localStorage.setItem("role", json.role);
+                setMessage("Login successful ✅");
+
+                // Redirect based on role
+                if (json.role === "student") {
+                    navigate("/student");
+                } else {
+                    navigate("/teacher");
+                }
             } else {
-                navigate("/teacher");
+                setMessage(json.error || "Invalid credentials ❌");
             }
         } catch (error) {
-            setMessage("Invalid credentials ❌");
+            console.error("Login error:", error);
+            setMessage("Something went wrong ❌");
         }
     };
 
@@ -37,9 +49,7 @@ const Login = () => {
                 <div className="row g-0">
                     <div className="col-md-6 d-flex flex-column justify-content-center align-items-center bg-success text-white p-5 rounded-start">
                         <h2 className="fw-bold">Welcome Back 👋</h2>
-                        <p className="text-center">
-                            Login to continue exploring placement drives and opportunities.
-                        </p>
+                        <p className="text-center">Login to continue exploring placement drives and opportunities.</p>
                         <i className="bi bi-person-circle fs-1 mt-3"></i>
                     </div>
                     <div className="col-md-6 p-5">
@@ -67,6 +77,18 @@ const Login = () => {
                                     onChange={handleChange}
                                     required
                                 />
+                            </div>
+                            <div className="mb-3">
+                                <label className="form-label">Role</label>
+                                <select
+                                    name="role"
+                                    className="form-control"
+                                    value={formData.role}
+                                    onChange={handleChange}
+                                >
+                                    <option value="student">Student</option>
+                                    <option value="teacher">Teacher</option>
+                                </select>
                             </div>
                             <button type="submit" className="btn btn-success w-100">Login</button>
                         </form>

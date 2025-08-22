@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes,Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/NavBar";
 import Home from "./components/Home";
 import Register from "./components/Register";
@@ -13,7 +13,7 @@ import TeacherDashboard from "./components/TeacherDashboard";
 // import TeacherProfile, Drives, Login, Register etc.
 
 function App() {
-const user = JSON.parse(localStorage.getItem("user")); // {role: "student"/"teacher"}
+// const user = JSON.parse(localStorage.getItem("user")); // {role: "student"/"teacher"}
 
   return (
     <Router>
@@ -28,14 +28,6 @@ const user = JSON.parse(localStorage.getItem("user")); // {role: "student"/"teac
           <Route path="/login" element={<Login />} />
           <Route path="/student" element={<StudentDashboard />} />
           <Route path="/teacher" element={<TeacherDashboard />} />
-          <Route
-            path="/student/dashboard"
-            element={user?.role === "student" ? <StudentDashboard /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/teacher/dashboard"
-            element={user?.role === "teacher" ? <TeacherDashboard /> : <Navigate to="/login" />}
-          />
           {/* <Route path="/student/profile" element={<StudentProfile />} /> */}
           {/* Add other routes: TeacherProfile, Login, Register, Drives */}
         </Routes>
