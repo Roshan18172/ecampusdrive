@@ -7,13 +7,14 @@ import Login from "./components/pages/Login";
 import About from "./components/pages/About";
 import Drives from "./components/pages/Drives";
 import Contact from "./components/pages/Contact";
-import StudentDashboard from "./components/StudentDashboard";
-import TeacherDashboard from "./components/TeacherDashboard";
+import StudentDashboard from "./components/StudComp/StudentDashboard";
+import TeacherDashboard from "./components/TeachComp/TeacherDashboard";
+import StudDrives from "./components/StudComp/StudDrives";
 // import StudentProfile from "./components/StudentProfile";
 // import TeacherProfile, Drives, Login, Register etc.
 
 function App() {
-const user = JSON.parse(localStorage.getItem("user")); // {role: "student"/"teacher"}
+// const user = JSON.parse(localStorage.getItem("user")); // {role: "student"/"teacher"}
 
   return (
     <Router>
@@ -28,8 +29,7 @@ const user = JSON.parse(localStorage.getItem("user")); // {role: "student"/"teac
           <Route path="/login" element={<Login />} />
           <Route path="/student" element={<StudentDashboard />} />
           <Route path="/teacher" element={<TeacherDashboard />} />
-          {/* <Route path="/student/profile" element={<StudentProfile />} /> */}
-          {/* Add other routes: TeacherProfile, Login, Register, Drives */}
+          <Route path="/studdrives" element={<StudDrives />} />
         </Routes>
       </div>
     </Router>

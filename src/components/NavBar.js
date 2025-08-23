@@ -20,7 +20,7 @@ const Navbar = () => {
                         {localStorage.getItem("token") && role === "student" && (
                             <>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/student/profile">My Profile</Link>
+                                    <Link className="nav-link" to="/student">My Profile</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/drives">Drives</Link>

@@ -100,7 +100,7 @@ const TeacherDashboard = () => {
                         </a>
                     </li>
                     <li className="nav-item mt-auto">
-                        <a href="#" className="nav-link text-white" onClick={handleLogout}>
+                        <a href="/login" className="nav-link text-white" onClick={handleLogout}>
                             <i className="bi bi-box-arrow-right me-2"></i> Logout
                         </a>
                     </li>
