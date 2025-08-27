@@ -103,5 +103,18 @@ router.get('/applicants/:id', fetchUser, async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
+// GET a drive by ID for teachers
+router.get('/:id', async (req, res) => {
+    try {
+        const drive = await Drive.findById(req.params.id);
+        if (!drive) {
+            return res.status(404).json({ error: "Drive not found" });
+        }
+        res.json(drive);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+});
 
 module.exports = router;

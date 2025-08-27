@@ -43,6 +43,7 @@ const TeacherProfile = () => {
           <p><strong>Email:</strong> {user.email}</p>
           {user.department && <p><strong>Department:</strong> {user.department}</p>}
           {user.phone && <p><strong>Phone:</strong> {user.phone}</p>}
+          {user.postedDrives && <p><strong>Drive Posted:</strong> {user.postedDrives.length}</p>}
           {/* {profile.profile.course && <p><strong>Course:</strong> {profile.profile.course}</p>}
           {profile.profile.year && <p><strong>year:</strong> {profile.profile.year}</p>}
           {profile.profile.skills && <p><strong>skills:</strong> {profile.profile.skills}</p>} */}

@@ -4,22 +4,6 @@ import TsideBar from './TsideBar';
 
 const TeacherDrives = () => {
     const [drives, setDrives] = useState([]);
-    // ✅ Fetch teacher drives
-    useEffect(() => {
-        const fetchDrives = async () => {
-            try {
-                const token = localStorage.getItem("token");
-                const res = await axios.get("http://localhost:5000/api/drive/", {
-                    headers: { "auth-token": token },
-                });
-                setDrives(res.data);
-            } catch (error) {
-                console.error("Error fetching teacher drives:", error);
-            }
-        };
-
-        fetchDrives();
-    }, []);
     const [user, setUser] = useState([]);
     useEffect(() => {
         const fetchUser = async () => {
@@ -34,6 +18,15 @@ const TeacherDrives = () => {
 
                 const data = await res.json();
                 setUser(data);
+                if (data.postedDrives && data.postedDrives.length > 0) {
+                    const drivePromises = data.postedDrives.map((id) =>
+                        axios.get(`http://localhost:5000/api/drive/${id}`, {
+                            headers: { "auth-token": localStorage.getItem("token") }
+                        })
+                    );
+                    const drivesRes = await Promise.all(drivePromises);
+                    setDrives(drivesRes.map((res) => res.data));
+                }
             } catch (error) {
                 console.error("Error fetching user:", error);
             }

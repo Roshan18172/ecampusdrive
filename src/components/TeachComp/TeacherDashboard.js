@@ -1,34 +1,8 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import TsideBar from "./TsideBar";
 import TeacherProfile from "./TeacherProfile";
 
 const TeacherDashboard = () => {
-    const [drives, setDrives] = useState([]);
-    const [newDrive, setNewDrive] = useState({
-        title: "",
-        description: "",
-        eligibility: "",
-        packageOffered: "",
-    });
-    const [message, setMessage] = useState("");
-
-    // ✅ Fetch teacher drives
-    useEffect(() => {
-        const fetchDrives = async () => {
-            try {
-                const token = localStorage.getItem("token");
-                const res = await axios.get("http://localhost:5000/api/drive/", {
-                    headers: { "auth-token": token },
-                });
-                setDrives(res.data);
-            } catch (error) {
-                console.error("Error fetching teacher drives:", error);
-            }
-        };
-
-        fetchDrives();
-    }, []);
     const [user, setUser] = useState([]);
 
     useEffect(() => {
@@ -51,16 +25,13 @@ const TeacherDashboard = () => {
         fetchUser();
     }, []);
 
-
     return (
         <div className="d-flex vh-100">
             {/* Sidebar */}
             <TsideBar />
-
             {/* Main Content */}
             <div className="flex-grow-1 bg-light p-4">
                 <h2 className="fw-bold">Welcome, {user.name} 👩‍🏫</h2>
-                {/* <p className="text-muted">Manage your drives and applicants here</p> */}
                 <TeacherProfile />
             </div>
         </div>
