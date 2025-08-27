@@ -11,10 +11,12 @@ import StudentDashboard from "./components/StudComp/StudentDashboard";
 import TeacherDashboard from "./components/TeachComp/TeacherDashboard";
 import StudDrives from "./components/StudComp/StudDrives";
 import UpdateStudProf from "./components/StudComp/UpdateStudProf";
+import CreateDrive from "./components/TeachComp/CreateDrive";
+import TeacherDrives from "./components/TeachComp/TeacherDrives";
 
 
 function App() {
-// const user = JSON.parse(localStorage.getItem("user")); // {role: "student"/"teacher"}
+  // const user = JSON.parse(localStorage.getItem("user")); // {role: "student"/"teacher"}
 
   return (
     <Router>
@@ -31,6 +33,8 @@ function App() {
           <Route path="/teacher" element={<TeacherDashboard />} />
           <Route path="/studdrives" element={<StudDrives />} />
           <Route path="/upStud" element={<UpdateStudProf />} />
+          <Route path="/createDrive" element={<CreateDrive />} />
+          <Route path="/Tdrives" element={<TeacherDrives />} />
         </Routes>
       </div>
     </Router>

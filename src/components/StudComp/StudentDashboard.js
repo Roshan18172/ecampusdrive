@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import SsideBar from "./SsideBar";
 import StudProfile from "./StudProfile";
-import UpdateStudProf from "./UpdateStudProf";
 
 const StudentDashboard = () => {
     
@@ -11,7 +10,6 @@ const StudentDashboard = () => {
         year: "",
         skills: "",
     });
-    const [message, setMessage] = useState("");
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -37,9 +35,6 @@ const StudentDashboard = () => {
             <div className="flex-grow-1 bg-light p-4">
                 <h2 className="fw-bold">Welcome {profile.name} 👋</h2>
                 <StudProfile   />
-                {/* Profile Update Section */}
-                {/* <UpdateStudProf /> */}
-                
             </div>
         </div>
     );
