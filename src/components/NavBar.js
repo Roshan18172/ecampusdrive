@@ -17,16 +17,8 @@ const Navbar = () => {
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav ms-auto">
 
-                        {localStorage.getItem("token") && role === "student" && (
+                        {localStorage.getItem("token") && role === "student" && role === "teacher" &&  (
                             <>
-                            </>
-                        )}
-
-                        {localStorage.getItem("token") && role === "teacher" && (
-                            <>
-                                <li className="nav-item">
-                                    <Link className="nav-link" to="/teacher/drives">Manage Drives</Link>
-                                </li>
                             </>
                         )}
 
