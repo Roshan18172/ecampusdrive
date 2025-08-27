@@ -12,9 +12,9 @@ const SsideBar = () => {
             <h3 className="fw-bold mb-4">eCampus 🎓</h3>
             <ul className="nav flex-column">
                 <li className="nav-item mb-3">
-                    <a href="#" className="nav-link text-white">
+                    <Link to="/student" className="nav-link text-white">
                         <i className="bi bi-house-door-fill me-2"></i> Dashboard
-                    </a>
+                    </Link>
                 </li>
                 <li className="nav-item mb-3">
                     <Link to="/studdrives" className="nav-link text-white">

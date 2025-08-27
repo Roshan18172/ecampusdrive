@@ -45,27 +45,29 @@ const UpdateStudProf = (props) => {
     return (
         <div className="d-flex vh-100">
             <SsideBar />
-            <div id="profile" className="card shadow-sm border-0 p-4 mt-5">
-                <h4 className="fw-bold mb-3">Update Profile</h4>
-                {message && <div className="alert alert-info">{message}</div>}
-                <form onSubmit={handleUpdate}>
-                    <div className="mb-3">
-                        <label className="form-label">Course</label>
-                        <input type="text" className="form-control" name="course" value={profile.course} onChange={handleChange}
-                            placeholder="e.g. B.Tech, MBA" />
-                    </div>
-                    <div className="mb-3">
-                        <label className="form-label">Year</label>
-                        <input type="text" className="form-control" name="year" value={profile.year} onChange={handleChange} placeholder="e.g. 3rd Year"
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label className="form-label">Skills</label>
-                        <input type="text" className="form-control" name="skills" value={profile.skills} onChange={handleChange} placeholder="e.g. React, Node.js, Java"
-                        />
-                    </div>
-                    <button className="btn btn-success">Update Profile</button>
-                </form>
+            <div className="flex-grow-1 bg-light p-4">
+                <div id="profile" className="card shadow-sm border-0 p-4 mt-5">
+                    <h4 className="fw-bold mb-3">Update Profile</h4>
+                    {message && <div className="alert alert-info">{message}</div>}
+                    <form onSubmit={handleUpdate}>
+                        <div className="mb-3">
+                            <label className="form-label">Course</label>
+                            <input type="text" className="form-control" name="course" value={profile.course} onChange={handleChange}
+                                placeholder="e.g. B.Tech, MBA" />
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label">Year</label>
+                            <input type="text" className="form-control" name="year" value={profile.year} onChange={handleChange} placeholder="e.g. 3rd Year"
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label">Skills</label>
+                            <input type="text" className="form-control" name="skills" value={profile.skills} onChange={handleChange} placeholder="e.g. React, Node.js, Java"
+                            />
+                        </div>
+                        <button className="btn btn-success">Update Profile</button>
+                    </form>
+                </div>
             </div>
         </div>
     )
