@@ -10,8 +10,8 @@ import Contact from "./components/pages/Contact";
 import StudentDashboard from "./components/StudComp/StudentDashboard";
 import TeacherDashboard from "./components/TeachComp/TeacherDashboard";
 import StudDrives from "./components/StudComp/StudDrives";
-// import StudentProfile from "./components/StudentProfile";
-// import TeacherProfile, Drives, Login, Register etc.
+import UpdateStudProf from "./components/StudComp/UpdateStudProf";
+
 
 function App() {
 // const user = JSON.parse(localStorage.getItem("user")); // {role: "student"/"teacher"}
@@ -30,6 +30,7 @@ function App() {
           <Route path="/student" element={<StudentDashboard />} />
           <Route path="/teacher" element={<TeacherDashboard />} />
           <Route path="/studdrives" element={<StudDrives />} />
+          <Route path="/upStud" element={<UpdateStudProf />} />
         </Routes>
       </div>
     </Router>

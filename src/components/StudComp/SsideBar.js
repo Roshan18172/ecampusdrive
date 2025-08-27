@@ -22,9 +22,9 @@ const SsideBar = () => {
                     </Link>
                 </li>
                 <li className="nav-item mb-3">
-                    <a href="#profile" className="nav-link text-white">
-                        <i className="bi bi-person-lines-fill me-2"></i> Profile
-                    </a>
+                    <Link to="/upStud" className="nav-link text-white">
+                        <i className="bi bi-person-lines-fill me-2"></i> Update Profile
+                    </Link>
                 </li>
                 <li className="nav-item mt-auto">
                     <a href="#" className="nav-link text-white" onClick={handleLogout}>
