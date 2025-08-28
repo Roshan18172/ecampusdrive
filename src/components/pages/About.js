@@ -15,7 +15,7 @@ const About = () => {
             <div className="row align-items-center mb-5">
                 <div className="col-md-6">
                     <img
-                        src="https://img.freepik.com/free-vector/college-project-concept-illustration_114360-10671.jpg"
+                        src="https://www.hdwallpapers.in/download/city_buildings_architecture_modern_bridge_4k_hd-3840x2160.jpg"
                         alt="Mission"
                         className="img-fluid rounded shadow-lg"
                     />

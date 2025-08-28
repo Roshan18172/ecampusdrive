@@ -32,6 +32,7 @@ const StudDrives = () => {
                                     <div className="card-body">
                                         <h5 className="card-title fw-bold">{drive.title}</h5>
                                         <p className="card-text text-muted">
+                                            Description: {drive.description}<br/>
                                             Eligibility: {drive.eligibility} <br />
                                             Package: {drive.packageOffered}
                                         </p>

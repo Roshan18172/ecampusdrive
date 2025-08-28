@@ -1,10 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TsideBar from './TsideBar';
+import { Modal, Button, Form } from "react-bootstrap";
 
 const TeacherDrives = () => {
     const [drives, setDrives] = useState([]);
-    const [user, setUser] = useState([]);
+    const [user, setUser] = useState({});
+    const [show, setShow] = useState(false);
+    const [selectedDrive, setSelectedDrive] = useState(null);
+    const [formData, setFormData] = useState({
+        title: "",
+        description: "",
+        eligibility: "",
+        packageOffered: ""
+    });
+
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -12,12 +22,13 @@ const TeacherDrives = () => {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
-                        "auth-token": localStorage.getItem("token"), // 👈 token stored after login
+                        "auth-token": localStorage.getItem("token"),
                     },
                 });
 
                 const data = await res.json();
                 setUser(data);
+
                 if (data.postedDrives && data.postedDrives.length > 0) {
                     const drivePromises = data.postedDrives.map((id) =>
                         axios.get(`http://localhost:5000/api/drive/${id}`, {
@@ -33,6 +44,7 @@ const TeacherDrives = () => {
         };
         fetchUser();
     }, []);
+
     // ✅ Handle delete
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure you want to delete this drive?")) return;
@@ -40,16 +52,39 @@ const TeacherDrives = () => {
             await axios.delete(`http://localhost:5000/api/drive/${id}`, {
                 headers: { "auth-token": localStorage.getItem("token") }
             });
-            setDrives(drives.filter((d) => d._id !== id)); // remove from UI
+            setDrives(drives.filter((d) => d._id !== id));
         } catch (error) {
             console.error("Error deleting drive:", error);
         }
     };
 
-    // ✅ Handle edit (you can redirect to edit page)
-    const handleEdit = (id) => {
-        window.location.href = `/edit-drive/${id}`;
+    // ✅ Open Edit Modal
+    const handleEdit = (drive) => {
+        setSelectedDrive(drive);
+        setFormData({
+            title: drive.title,
+            description: drive.description,
+            eligibility: drive.eligibility,
+            packageOffered: drive.packageOffered
+        });
+        setShow(true);
     };
+
+    // ✅ Update Drive
+    const handleUpdate = async () => {
+        try {
+            await axios.put(`http://localhost:5000/api/drive/${selectedDrive._id}`, formData, {
+                headers: { "auth-token": localStorage.getItem("token") }
+            });
+            setShow(false);
+
+            // refresh UI
+            setDrives(drives.map(d => d._id === selectedDrive._id ? { ...d, ...formData } : d));
+        } catch (err) {
+            console.error("Error updating drive:", err);
+        }
+    };
+
     return (
         <div className="d-flex vh-100">
             {/* Sidebar */}
@@ -67,12 +102,12 @@ const TeacherDrives = () => {
                                         <div className="d-flex justify-content-between align-items-center">
                                             <h5 className="card-title fw-bold mb-0">{drive.title}</h5>
                                             <div>
-                                                <i className="bi bi-pencil-square text-primary me-3" style={{ cursor: "pointer" }}
-                                                    onClick={() => handleEdit(drive._id)}
-                                                ></i>
-                                                <i className="bi bi-trash text-danger" style={{ cursor: "pointer" }}
-                                                    onClick={() => handleDelete(drive._id)}
-                                                ></i>
+                                                <i className="bi bi-pencil-square text-primary me-3"
+                                                    style={{ cursor: "pointer" }}
+                                                    onClick={() => handleEdit(drive)}></i>
+                                                <i className="bi bi-trash text-danger"
+                                                    style={{ cursor: "pointer" }}
+                                                    onClick={() => handleDelete(drive._id)}></i>
                                             </div>
                                         </div>
                                         <p className="card-text text-muted">
@@ -92,9 +127,59 @@ const TeacherDrives = () => {
                     )}
                 </div>
             </div>
+
+            {/* ✅ Edit Modal */}
+            <Modal show={show} onHide={() => setShow(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Edit Drive</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group>
+                            <Form.Label>Title</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="title"
+                                value={formData.title}
+                                onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.value })}
+                            />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Description</Form.Label>
+                            <Form.Control
+                                as="textarea"
+                                name="description"
+                                value={formData.description}
+                                onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.value })}
+                            />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Eligibility</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="eligibility"
+                                value={formData.eligibility}
+                                onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.value })}
+                            />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Package Offered</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="packageOffered"
+                                value={formData.packageOffered}
+                                onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.value })}
+                            />
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShow(false)}>Cancel</Button>
+                    <Button variant="primary" onClick={handleUpdate}>Save Changes</Button>
+                </Modal.Footer>
+            </Modal>
         </div>
+    );
+};
 
-    )
-}
-
-export default TeacherDrives
+export default TeacherDrives;

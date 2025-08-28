@@ -123,30 +123,49 @@ router.delete('/:id', fetchUser, async (req, res) => {
     try {
         // Find the drive
         const drive = await Drive.findById(req.params.id);
-
         if (!drive) {
             return res.status(404).json({ error: "Drive not found" });
         }
-
         // Ensure only the teacher who created it can delete
         if (drive.postedBy.toString() !== req.user.id) {
             return res.status(401).json({ error: "Not authorized" });
         }
-
         // Delete the drive
         await Drive.findByIdAndDelete(req.params.id);
-
         // 🔥 Remove this drive ID from teacher's postedDrives
         await Teacher.findByIdAndUpdate(req.user.id, {
             $pull: { postedDrives: drive._id }
         });
-
         res.json({ success: true, message: "Drive deleted successfully" });
 
     } catch (err) {
         console.error(err.message);
         res.status(500).send("Server Error");
     }
+});
+
+// Update drive
+router.put("/:id", fetchUser, async (req, res) => {
+  try {
+    const { title, description, eligibility, packageOffered } = req.body;
+
+    let drive = await Drive.findById(req.params.id);
+    if (!drive) return res.status(404).json({ error: "Drive not found" });
+
+    // Check if user owns the drive (if needed)
+    // if (drive.user.toString() !== req.user.id) {
+    //   return res.status(401).send("Not Allowed");
+    // }
+    drive = await Drive.findByIdAndUpdate(
+      req.params.id,
+      { $set: { title, description, eligibility, packageOffered } },
+      { new: true }
+    );
+    res.json(drive);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error");
+  }
 });
 
 module.exports = router;
