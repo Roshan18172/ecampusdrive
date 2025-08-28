@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import {useNavigate } from "react-router-dom";
 import axios from 'axios';
 import TsideBar from './TsideBar';
 import { Modal, Button, Form } from "react-bootstrap";
 
 const TeacherDrives = () => {
+    const navigate = useNavigate();
     const [drives, setDrives] = useState([]);
     const [user, setUser] = useState({});
     const [show, setShow] = useState(false);
@@ -117,7 +119,7 @@ const TeacherDrives = () => {
                                             <br />
                                             Package: {drive.packageOffered}
                                         </p>
-                                        <button className="btn btn-outline-primary w-100">View Applicants</button>
+                                        <button className="btn btn-outline-primary w-100" onClick={() => navigate(`/Dapplicants/${drive._id}`)}>View Applicants</button>
                                     </div>
                                 </div>
                             </div>

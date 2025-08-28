@@ -13,6 +13,7 @@ import StudDrives from "./components/StudComp/StudDrives";
 import UpdateStudProf from "./components/StudComp/UpdateStudProf";
 import CreateDrive from "./components/TeachComp/CreateDrive";
 import TeacherDrives from "./components/TeachComp/TeacherDrives";
+import DriveApplicants from "./components/TeachComp/DriveApplicants";
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
           <Route path="/upStud" element={<UpdateStudProf />} />
           <Route path="/createDrive" element={<CreateDrive />} />
           <Route path="/Tdrives" element={<TeacherDrives />} />
+          <Route path="/Dapplicants/:id" element={<DriveApplicants />} />
         </Routes>
       </div>
     </Router>

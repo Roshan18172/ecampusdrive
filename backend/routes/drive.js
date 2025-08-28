@@ -56,24 +56,18 @@ router.post('/apply/:id', fetchUser, async (req, res) => {
         if (req.user.role !== 'student') {
             return res.status(403).json({ error: "Only students can apply" });
         }
-
         const drive = await Drive.findById(req.params.id);
         const student = await Student.findById(req.user.id);
-
         if (!drive || !student) return res.status(404).json({ error: "Not found" });
-
         // Avoid duplicate applications
         if (drive.applicants.includes(student._id)) {
             return res.status(400).json({ error: "Already applied" });
         }
-
         drive.applicants.push(student._id);
         student.appliedDrives.push(drive._id);
-
         await drive.save();
         await student.save();
-
-        res.json({ message: "Applied successfully" });
+        res.json({ success: true, message: "Applied successfully" });
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Server Error");
@@ -146,26 +140,40 @@ router.delete('/:id', fetchUser, async (req, res) => {
 
 // Update drive
 router.put("/:id", fetchUser, async (req, res) => {
-  try {
-    const { title, description, eligibility, packageOffered } = req.body;
+    try {
+        const { title, description, eligibility, packageOffered } = req.body;
 
-    let drive = await Drive.findById(req.params.id);
-    if (!drive) return res.status(404).json({ error: "Drive not found" });
+        let drive = await Drive.findById(req.params.id);
+        if (!drive) return res.status(404).json({ error: "Drive not found" });
 
-    // Check if user owns the drive (if needed)
-    // if (drive.user.toString() !== req.user.id) {
-    //   return res.status(401).send("Not Allowed");
-    // }
-    drive = await Drive.findByIdAndUpdate(
-      req.params.id,
-      { $set: { title, description, eligibility, packageOffered } },
-      { new: true }
-    );
-    res.json(drive);
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send("Server Error");
-  }
+        // Check if user owns the drive (if needed)
+        // if (drive.user.toString() !== req.user.id) {
+        //   return res.status(401).send("Not Allowed");
+        // }
+        drive = await Drive.findByIdAndUpdate(
+            req.params.id,
+            { $set: { title, description, eligibility, packageOffered } },
+            { new: true }
+        );
+        res.json(drive);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Server Error");
+    }
 });
+// Get all drives student applied to
+router.get("/applied", fetchUser, async (req, res) => {
+    try {
+        const studentId = req.user.id;
 
+        // find drives where studentId is inside appliedStudents array
+        const drives = await Drive.find({ appliedStudents: studentId }).select("_id");
+
+        const appliedDriveIds = drives.map((d) => d._id); // return only IDs
+        res.json(appliedDriveIds);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Server error" });
+    }
+});
 module.exports = router;

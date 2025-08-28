@@ -40,11 +40,12 @@ const StudProfile = () => {
         <hr />
 
         <div className="mb-3">
-          <p><strong>Email:</strong> {profile.email}</p>
-          {profile.department && <p><strong>Department:</strong> {profile.department}</p>}
+          <p><strong>Email :</strong> {profile.email}</p>
+          {profile.department && <p><strong>Department :</strong> {profile.department}</p>}
           {profile.phone && <p><strong>Phone:</strong> {profile.phone}</p>}
+          {/* {profile.profile.year && <p><strong>year:</strong> {profile.profile.year}</p>} */}
+          {profile.appliedDrives && <p><strong>Applied Drives :</strong> {profile.appliedDrives.length}</p>}
           {/* {profile.profile.course && <p><strong>Course:</strong> {profile.profile.course}</p>}
-          {profile.profile.year && <p><strong>year:</strong> {profile.profile.year}</p>}
           {profile.profile.skills && <p><strong>skills:</strong> {profile.profile.skills}</p>} */}
         </div>
 
